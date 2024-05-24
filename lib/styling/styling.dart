@@ -16,4 +16,5 @@ class ButtonStyling {
 
 class BackgroundColor {
   static const Color bColor1 = Color(0xFFA7BCC7);
+  // static const Color bColor2 = Color()
 }

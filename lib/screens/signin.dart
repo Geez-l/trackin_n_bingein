@@ -9,6 +9,11 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool _isPasswordVisible = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,12 +25,12 @@ class _SigninState extends State<Signin> {
             width: double.infinity,
             color: Color(0xFFB0C4DE),
             child: Padding(
-              padding: const EdgeInsets.only(top: 10), 
+              padding: const EdgeInsets.only(top: 10),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'lib/assets/logofin.png', 
+                    'lib/assets/logofin.png',
                     height: 150,
                   ),
                   Text(
@@ -41,7 +46,7 @@ class _SigninState extends State<Signin> {
           ),
           // White Container with Rounded Corners
           Padding(
-            padding: const EdgeInsets.only(top: 200), // Adjust this value as needed
+            padding: const EdgeInsets.only(top: 200),
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 24.0),
@@ -77,8 +82,10 @@ class _SigninState extends State<Signin> {
                     SizedBox(height: 20),
                     // Username Field
                     TextFormField(
+                      controller: _usernameController,
                       decoration: InputDecoration(
                         labelText: 'Username',
+                        prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -87,15 +94,23 @@ class _SigninState extends State<Signin> {
                     SizedBox(height: 16),
                     // Password Field
                     TextFormField(
-                      obscureText: true,
+                      controller: _passwordController,
+                      obscureText: !_isPasswordVisible,
                       decoration: InputDecoration(
                         labelText: 'Password',
+                        prefixIcon: Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _isPasswordVisible = !_isPasswordVisible;
+                            });
+                          },
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.visibility_off),
-                          onPressed: () {},
                         ),
                       ),
                     ),
