@@ -14,10 +14,8 @@ class _SignupState extends State<Signup> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
-
-  bool _isPasswordVisible = false;
-  bool _isConfirmPasswordVisible = false;
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +28,12 @@ class _SignupState extends State<Signup> {
             width: double.infinity,
             color: Color(0xFFB0C4DE),
             child: Padding(
-              padding: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.only(top: 10), 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'lib/assets/logofin.png',
+                    'lib/assets/logofin.png', 
                     height: 150,
                   ),
                   Text(
@@ -85,7 +83,6 @@ class _SignupState extends State<Signup> {
                         controller: _usernameController,
                         decoration: InputDecoration(
                           labelText: 'Username',
-                          prefixIcon: Icon(Icons.person),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -103,7 +100,6 @@ class _SignupState extends State<Signup> {
                         controller: _emailController,
                         decoration: InputDecoration(
                           labelText: 'Email',
-                          prefixIcon: Icon(Icons.email),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -117,6 +113,7 @@ class _SignupState extends State<Signup> {
                           if (!regex.hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
+                          // Add email existence check logic here
                           return null;
                         },
                       ),
@@ -124,20 +121,9 @@ class _SignupState extends State<Signup> {
                       // Password Field
                       TextFormField(
                         controller: _passwordController,
-                        obscureText: !_isPasswordVisible,
+                        obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Password',
-                          prefixIcon: Icon(Icons.lock),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isPasswordVisible = !_isPasswordVisible;
-                              });
-                            },
-                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -156,20 +142,9 @@ class _SignupState extends State<Signup> {
                       // Confirm Password Field
                       TextFormField(
                         controller: _confirmPasswordController,
-                        obscureText: !_isConfirmPasswordVisible,
+                        obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Confirm Password',
-                          prefixIcon: Icon(Icons.lock_outline),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _isConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                              });
-                            },
-                          ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -192,7 +167,7 @@ class _SignupState extends State<Signup> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState?.validate() ?? false) {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => Homepage()),
                               );

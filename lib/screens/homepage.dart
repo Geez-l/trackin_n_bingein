@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:trackin_n_bingein/styling/styling.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -55,7 +54,6 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Homepage'),
-        automaticallyImplyLeading: false,
       ),
       body: _tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -67,19 +65,19 @@ class _HomepageState extends State<Homepage> {
         },
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: _currentIndex == 0 ? Styling.textColor3 : Colors.black),
+            icon: Icon(Icons.home, color: Colors.black),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.analytics, color: _currentIndex == 1 ? Styling.textColor3 : Colors.black),
+            icon: Icon(Icons.analytics, color: Colors.black),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list, color: _currentIndex == 2 ? Styling.textColor3 : Colors.black),
+            icon: Icon(Icons.list, color: Colors.black),
             label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: _currentIndex == 3 ? Styling.textColor3 : Colors.black),
+            icon: Icon(Icons.person, color: Colors.black),
             label: '',
           ),
         ],
