@@ -126,7 +126,6 @@ class _SignupState extends State<Signup> {
                           if (!regex.hasMatch(value)) {
                             return 'Please enter a valid email';
                           }
-                          // Add email existence check logic here
                           return null;
                         },
                       ),
