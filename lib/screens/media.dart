@@ -56,7 +56,6 @@ class MediaCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
-                color: Colors.black54, // Black overlay to make text more readable
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Row(
@@ -169,14 +168,6 @@ class _MediaState extends State<Media> {
               children: [
                 Row(
                   children: [
-                    ClipOval(
-                      child: Image.asset(
-                        "lib/assets/placeholder_profile.jpg",
-                        fit: BoxFit.cover,
-                        width: 40,
-                        height: 40,
-                      ),
-                    ),
                     SizedBox(width: 10),
                     RichText(
                       text: const TextSpan(

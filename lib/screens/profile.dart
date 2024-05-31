@@ -94,7 +94,7 @@ class _ProfileState extends State<Profile> {
                     children: [
                       ClipOval(
                         child: Image.asset(
-                          "lib/assets/placeholder_profile.jpg",
+                          "lib/assets/default.jpg",
                           fit: BoxFit.cover,
                           width: 120,
                           height: 120,
@@ -120,38 +120,31 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                 ),
-                Expanded(
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        buildCardWithIcon(
-                          title: 'Edit Profile',
-                          icon: Icons.person,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => EditProfile()),
-                            );
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        buildCardWithIcon(
-                          title: 'Log Out',
-                          icon: Icons.logout,
-                          onTap: () {
-                            showLogoutConfirmationDialog(context);
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        buildCardWithIcon(
-                          title: 'Delete Account',
-                          icon: Icons.delete,
-                          onTap: () {
-                            showDeleteAccountDialog(context);
-                          },
-                        ),
-                      ],
+                Padding(
+                   padding: EdgeInsets.only(top: 30),
+                  child: Expanded(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 10),
+                          buildCardWithIcon(
+                            title: 'Log Out',
+                            icon: Icons.logout,
+                            onTap: () {
+                              showLogoutConfirmationDialog(context);
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          buildCardWithIcon(
+                            title: 'Delete Account',
+                            icon: Icons.delete,
+                            onTap: () {
+                              showDeleteAccountDialog(context);
+                            },
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

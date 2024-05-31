@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:trackin_n_bingein/styling/styling.dart';
 
 class Details extends StatefulWidget {
   final String title;
@@ -13,16 +14,40 @@ class Details extends StatefulWidget {
 
 class _DetailsState extends State<Details> {
   late double progressToAdd;
-  late double progress; 
+  late double progress;
   late String catName;
-  
+
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     progressToAdd = 0;
-    progress = 0; 
+    progress = 0;
+  }
+
+  void showAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text("Continue"),
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Progress"),
+      content: Text("Congratulations! Your progress was recorded."),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -31,18 +56,17 @@ class _DetailsState extends State<Details> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: StreamBuilder<DocumentSnapshot>(
+      body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('Media')
             .where('Name', isEqualTo: widget.title)
-            .snapshots()
-            .map((snapshot) => snapshot.docs.first),
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(child: CircularProgressIndicator());
           }
 
-          final mediaData = snapshot.data!;
+          final mediaData = snapshot.data!.docs.first;
 
           // Extract media fields
           final String name = mediaData['Name'];
@@ -58,13 +82,11 @@ class _DetailsState extends State<Details> {
           return ListView(
             padding: EdgeInsets.all(16),
             children: [
-              // Container(
-              //   height: 50, 
-              //   width: double.infinity, 
-              //   child: Image.network(
-              //     imagePath,
-              //     fit: BoxFit.cover, 
-              //   ),
+              // Image.network(
+              //   imagePath,
+              //   height: 200,
+              //   width: double.infinity,
+              //   fit: BoxFit.cover,
               // ),
               SizedBox(height: 20),
               Text('Name: $name', style: TextStyle(fontSize: 18)),
@@ -97,37 +119,49 @@ class _DetailsState extends State<Details> {
                 onPressed: () {
                   setState(() {
                     progress += progressToAdd;
-
-                    // Update progress in Firestore
-                    FirebaseFirestore.instance
-                        .collection('Media')
-                        .where('Name', isEqualTo: widget.title)
-                        .get()
-                        .then((querySnapshot) {
-                      querySnapshot.docs.forEach((doc) {
-                        doc.reference.update({'Progress': progress});
-                      });
-                    });
-
-                    // update overallstat
-                    FirebaseFirestore.instance
-                        .collection('Category')
-                        .where('Name', isEqualTo: catName) 
-                        .get()
-                        .then((querySnapshot) {
-                      querySnapshot.docs.forEach((doc) {
-                        // Retrieve the existing overallStat and add progressToAdd to it
-                        final double existingOverallStat = doc['OverallStat'] ?? 0;
-                        final double newOverallStat = existingOverallStat + progressToAdd;
-
-                        // Update the overallStat field in Firestore
-                        doc.reference.update({'OverallStat': newOverallStat});
-                      });
-                    });
-                    _controller.clear();
                   });
+
+                  // Update progress in Firestore
+                  FirebaseFirestore.instance
+                      .collection('Media')
+                      .where('Name', isEqualTo: widget.title)
+                      .get()
+                      .then((querySnapshot) {
+                    for (var doc in querySnapshot.docs) {
+                      doc.reference.update({'Progress': progress});
+                    }
+                  });
+
+                  // Update overallStat
+                  FirebaseFirestore.instance
+                      .collection('Category')
+                      .where('Name', isEqualTo: catName)
+                      .get()
+                      .then((querySnapshot) {
+                    for (var doc in querySnapshot.docs) {
+                      // Retrieve the existing overallStat and add progressToAdd to it
+                      final double existingOverallStat =
+                          doc['OverallStat'] ?? 0;
+                      final double newOverallStat =
+                          existingOverallStat + progressToAdd;
+
+                      // Update the overallStat field in Firestore
+                      doc.reference.update({'OverallStat': newOverallStat});
+                    }
+                  });
+
+                  _controller.clear();
+                  showAlertDialog(context);
                 },
+                // record progress button
                 child: Text('Record Progress'),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: ButtonStyling.primaryColor,
+                  backgroundColor: ButtonStyling.buttonTextColor,
+                  padding: EdgeInsets.symmetric(vertical: 16, horizontal: 25),
+                  textStyle: TextStyle(fontSize: 20),
+                  elevation: 3,
+                ),
               ),
             ],
           );

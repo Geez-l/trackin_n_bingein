@@ -48,22 +48,7 @@ class _HomepageState extends State<Homepage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset('lib/assets/logofin.png', height: 50),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => Profile()),
-                          // );
-                        },
-                        child: ClipOval(
-                          child: Image.asset(
-                            "lib/assets/placeholder_profile.jpg",
-                            fit: BoxFit.cover,
-                            width: 40,
-                            height: 40,
-                          ),
-                        ),
-                      ),
+                      
                     ],
                   ),
                 ),
@@ -147,10 +132,6 @@ class WeeklyWrapUpSection extends StatelessWidget {  // not finished
               child: PieChartWidget(),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('View my statistics'),
-            ),
           ],
         ),
       ),
