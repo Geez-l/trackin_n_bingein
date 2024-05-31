@@ -60,49 +60,54 @@ class _MediaListState extends State<MediaList> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: FirebaseFirestore.instance
-              .collection('Media')
-              .where('CategoryName', isEqualTo: widget.title)
-              .where('UserId', isEqualTo: userId) 
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Center(child: CircularProgressIndicator());
-            }
-            final mediaDocs = snapshot.data!.docs;
+        child: Column(
+          children: [
+            SizedBox(height: 15.0),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Media')
+                  .where('CategoryName', isEqualTo: widget.title)
+                  .where('UserId', isEqualTo: userId)
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                final mediaDocs = snapshot.data!.docs;
 
-            if (mediaDocs.isEmpty) {
-              return Center(
-                child: Text('Empty'),
-              );
-            }
+                if (mediaDocs.isEmpty) {
+                  return Center(
+                    child: Text('Empty'),
+                  );
+                }
 
-            return GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-              ),
-              itemCount: mediaDocs.length,
-              itemBuilder: (context, index) {
-                final media = mediaDocs[index];
-                return MediaListCard(
-                  title: media['Name'],
-                  imagePath: media['Image'],
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Details(title: media['Name']),
-                      ),
+                return GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                  ),
+                  itemCount: mediaDocs.length,
+                  itemBuilder: (context, index) {
+                    final media = mediaDocs[index];
+                    return MediaListCard(
+                      title: media['Name'],
+                      imagePath: media['Image'],
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Details(title: media['Name']),
+                          ),
+                        );
+                      },
                     );
                   },
                 );
               },
-            );
-          },
+            ),
+          ],
         ),
       ),
     );
@@ -128,8 +133,8 @@ class MediaListCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 60,
-            height: 75,
+            width: 80,
+            height: 95,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
               border: Border.all(

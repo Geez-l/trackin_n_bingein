@@ -87,15 +87,6 @@ Future<void> fetchCategories() async {
               children: [
                 Row(
                   children: [
-                    ClipOval(
-                      child: Image.asset(
-                        "lib/assets/placeholder_profile.jpg",
-                        fit: BoxFit.cover,
-                        width: 40,
-                        height: 40,
-                      ),
-                    ),
-                    SizedBox(width: 10),
                     RichText(
                       text: const TextSpan(
                         children: [
@@ -103,7 +94,7 @@ Future<void> fetchCategories() async {
                             text: "Your media consumption",
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
                               color: Styling.textColor3,
                             ),
                           ),
@@ -126,7 +117,7 @@ Future<void> fetchCategories() async {
                         child: Text(
                           "Statistics",
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.left,

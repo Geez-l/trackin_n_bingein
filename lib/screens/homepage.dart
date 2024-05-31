@@ -43,10 +43,16 @@ class _HomepageState extends State<Homepage> {
                   backgroundColor: Color(0xFFA7BCC7),
                   elevation: 0,
                   title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset('lib/assets/logofin.png', height: 50),
-                      Text("Trackin' n' Bingein"),
+                      SizedBox(width: 7.0),
+                      const Text(
+                        "Trackin' n' Bingein'",
+                        style: TextStyle(
+                          fontSize: 16, 
+                          fontWeight: FontWeight.bold, 
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      ),  
                     ],
                   ),
                 ),
@@ -132,10 +138,6 @@ class WeeklyWrapUpSection extends StatelessWidget {  // not finished
               child: PieChartWidget(),
             ),
             SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('View my statistics'),
-            ),
           ],
         ),
       ),
