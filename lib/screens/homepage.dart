@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:trackin_n_bingein/backend/userFetch.dart';
-import 'package:trackin_n_bingein/screens/media.dart';
 import 'package:trackin_n_bingein/screens/statistics.dart'; 
 
 class Homepage extends StatefulWidget {
@@ -29,10 +27,13 @@ class _HomepageState extends State<Homepage> {
       future: _usernameFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
+          // While waiting for data to fetch, show a loading indicator
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
+          // If an error occurs while fetching data, show an error message
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
+          // Once data is fetched, build the UI with the fetched username
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,25 +43,16 @@ class _HomepageState extends State<Homepage> {
                   backgroundColor: Color(0xFFA7BCC7),
                   elevation: 0,
                   title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image.asset('lib/assets/logofin.png', height: 50),
-                      InkWell(
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => Profile()),
-                          // );
-                        },
-                        child: ClipOval(
-                          child: Image.asset(
-                            "lib/assets/placeholder_profile.jpg",
-                            fit: BoxFit.cover,
-                            width: 40,
-                            height: 40,
-                          ),
-                        ),
-                      ),
+                      SizedBox(width: 7.0),
+                      const Text(
+                        "Trackin' n' Bingein'",
+                        style: TextStyle(
+                          fontSize: 16, 
+                          fontWeight: FontWeight.bold, 
+                          color: Color.fromARGB(255, 255, 255, 255)),
+                      ),  
                     ],
                   ),
                 ),
@@ -71,7 +63,7 @@ class _HomepageState extends State<Homepage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       WeeklyWrapUpSection(),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       MyListingsSection(),
                     ],
                   ),
@@ -85,10 +77,11 @@ class _HomepageState extends State<Homepage> {
   }
 }
 
+// greeting section
 class GreetingSection extends StatelessWidget {
   final String username;
 
-  const GreetingSection({Key? key, required this.username}) : super(key: key);
+  const GreetingSection({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +89,9 @@ class GreetingSection extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16.0),
       height: 100,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Color(0xFFA7BCC7),
-        borderRadius: const BorderRadius.only(
+        borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(25),
           bottomRight: Radius.circular(25),
         ),
@@ -121,7 +114,8 @@ class GreetingSection extends StatelessWidget {
   }
 }
 
-class WeeklyWrapUpSection extends StatelessWidget {  
+// weekly wrap up section
+class WeeklyWrapUpSection extends StatelessWidget {  // not finished
   @override 
   Widget build(BuildContext context) {
     return Card(
@@ -143,6 +137,7 @@ class WeeklyWrapUpSection extends StatelessWidget {
               height: 250,
               child: PieChartWidget(),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),
@@ -150,28 +145,39 @@ class WeeklyWrapUpSection extends StatelessWidget {
   }
 }
 
+// listings section
 class MyListingsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 16, top: 8),
+          padding: EdgeInsets.only(left: 16, top: 8),
           child: Text(
             'My Listings',
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
         ),
         SizedBox(height: 10),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Media()),
-            );
-          },
-          child: Text('See All'),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              ListingItem(
+                image: 'books.jpg', 
+                label: 'Books',
+              ),
+              ListingItem(
+                image: 'movie.jpg', 
+                label: 'Movies',
+              ),
+              ListingItem(
+                image: 'music.png',
+                label: 'Podcasts',
+              ),
+            ],
+          ),
         ),
       ],
     );

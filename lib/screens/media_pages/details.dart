@@ -1,6 +1,6 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:trackin_n_bingein/global/common/toast.dart';
 
 class Details extends StatefulWidget {
   final String title;
@@ -22,11 +22,27 @@ class _DetailsState extends State<Details> {
   void initState() {
     super.initState();
     progressToAdd = 0;
-    progress = 0; 
+    progress = 0;
+    _fetchProgress(); // Fetch progress from Firestore
+  }
+
+  // method for fetching progress from Firestore
+  void _fetchProgress() async {
+    final snapshot = await FirebaseFirestore.instance
+      .collection('Media')
+      .where('Name', isEqualTo: widget.title)
+      .get();
+    
+    if (snapshot.docs.isNotEmpty) {
+      final mediaData = snapshot.docs.first;
+      setState(() {
+        progress = mediaData['Progress'] ?? 0.0;
+      });
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) { 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -48,41 +64,30 @@ class _DetailsState extends State<Details> {
           final String name = mediaData['Name'];
           final String author = mediaData['Author'];
           final String description = mediaData['Description'];
-          final String status = mediaData['Status'];
-          progress = mediaData['Progress']; // Assign value to progress
+          String status = mediaData['Status'];
           final double max = mediaData['Max'];
-          final String imagePath = mediaData['Image'];
-          final String categoryName = mediaData['CategoryName'];
           catName = mediaData['CategoryName'];
 
           return ListView(
             padding: EdgeInsets.all(16),
             children: [
-              // Container(
-              //   height: 50, 
-              //   width: double.infinity, 
-              //   child: Image.network(
-              //     imagePath,
-              //     fit: BoxFit.cover, 
-              //   ),
-              // ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Text('Name: $name', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text('Author: $author', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text('Description: $description', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text('Progress: $progress', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 10),
-              Text('Status: $status', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
+              Text('Status: $status', style: const TextStyle(fontSize: 18)),
+              const SizedBox(height: 10),
               Text('Max: $max', style: TextStyle(fontSize: 18)),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextField(
                 controller: _controller,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Add to Progress',
                   prefixIcon: Icon(Icons.add),
                 ),
@@ -96,39 +101,47 @@ class _DetailsState extends State<Details> {
               ElevatedButton(
                 onPressed: () {
                   setState(() {
+                    // Update progress here
                     progress += progressToAdd;
 
-                    // Update progress in Firestore
+                    String newStatus = status;
+                    if (progress >= max) {
+                      progress = max;
+                      newStatus = 'Finished';
+                    }
+
                     FirebaseFirestore.instance
                         .collection('Media')
                         .where('Name', isEqualTo: widget.title)
                         .get()
                         .then((querySnapshot) {
                       querySnapshot.docs.forEach((doc) {
-                        doc.reference.update({'Progress': progress});
+                        doc.reference.update({'Progress': progress, 'Status': newStatus});
                       });
                     });
 
-                    // update overallstat
-                    FirebaseFirestore.instance
-                        .collection('Category')
-                        .where('Name', isEqualTo: catName) 
-                        .get()
-                        .then((querySnapshot) {
-                      querySnapshot.docs.forEach((doc) {
-                        // Retrieve the existing overallStat and add progressToAdd to it
-                        final double existingOverallStat = doc['OverallStat'] ?? 0;
-                        final double newOverallStat = existingOverallStat + progressToAdd;
-
-                        // Update the overallStat field in Firestore
-                        doc.reference.update({'OverallStat': newOverallStat});
+                    // Update overall statistics only if progress is incremented and not reaching max
+                    if (progressToAdd <= max - progressToAdd) {
+                      FirebaseFirestore.instance
+                          .collection('Category')
+                          .where('Name', isEqualTo: catName)
+                          .get()
+                          .then((querySnapshot) {
+                        querySnapshot.docs.forEach((doc) {
+                          final double existingOverallStat = doc['OverallStat'] ?? 0;
+                          final double newOverallStat = existingOverallStat + progressToAdd;
+                          doc.reference.update({'OverallStat': newOverallStat});
+                        });
                       });
-                    });
+                    }
+                    
+                    // Clear the text field
+                    showToast(message: 'Progress added');
                     _controller.clear();
                   });
                 },
-                child: Text('Record Progress'),
-              ),
+                child: Text('Add progress'),
+              )
             ],
           );
         },

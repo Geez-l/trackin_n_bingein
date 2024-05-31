@@ -22,9 +22,6 @@ class FirebaseAuthentication {
       // Handling specific FirebaseAuthException errors
       if (e.code == 'email-already-in-use') {
         showToast(message: 'The email is already in use.');
-      } else {
-        // For any other error codes, show a generic error message
-        // showToast(message: 'An error occurred: ${e.code}');
       }
     }
     return null;
@@ -46,10 +43,7 @@ class FirebaseAuthentication {
       // Handling specific FirebaseAuthException errors
       if (e.code == 'user-not-found' || e.code == 'wrong-password') {
         showToast(message: 'Invalid email or password.');
-      } else {
-        // For any other error codes, show a generic error message
-        // showToast(message: 'An error occurred: ${e.code}');
-      }
+      } 
     }
     return null;
   }

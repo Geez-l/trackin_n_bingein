@@ -5,7 +5,7 @@ import 'package:trackin_n_bingein/authentication/user_auth.dart';
 import 'package:trackin_n_bingein/backend/models/userModel.dart';
 import 'package:trackin_n_bingein/backend/user_repository.dart';
 import 'package:trackin_n_bingein/global/common/toast.dart';
-import 'package:trackin_n_bingein/screens/signin.dart';
+import 'package:trackin_n_bingein/screens/user_authentication_pages/signin.dart';
 import 'package:trackin_n_bingein/screens/navigation.dart';
 
 class Signup extends StatefulWidget {

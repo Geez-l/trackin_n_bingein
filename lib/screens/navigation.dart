@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:trackin_n_bingein/screens/homepage.dart';
-import 'package:trackin_n_bingein/screens/profile.dart';
+import 'package:trackin_n_bingein/screens/profile_pages/profile.dart';
 import 'package:trackin_n_bingein/screens/statistics.dart';
 import 'package:trackin_n_bingein/styling/styling.dart';
-import 'package:trackin_n_bingein/screens/media.dart';
+import 'package:trackin_n_bingein/screens/media_pages/media.dart';
 
 class Navigation extends StatefulWidget {
   final String email;

@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trackin_n_bingein/backend/models/categoryModel.dart';
-import 'package:trackin_n_bingein/screens/mediaList.dart';
+import 'package:trackin_n_bingein/global/common/toast.dart';
+import 'package:trackin_n_bingein/screens/media_pages/mediaList.dart';
 import 'package:trackin_n_bingein/styling/styling.dart';
 
 class Media extends StatefulWidget {
@@ -56,7 +57,7 @@ class MediaCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
-                color: Colors.black54, 
+                // color: Colors.black54, 
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Row(
@@ -169,15 +170,6 @@ class _MediaState extends State<Media> {
               children: [
                 Row(
                   children: [
-                    ClipOval(
-                      child: Image.asset(
-                        "lib/assets/placeholder_profile.jpg",
-                        fit: BoxFit.cover,
-                        width: 40,
-                        height: 40,
-                      ),
-                    ),
-                    SizedBox(width: 10),
                     RichText(
                       text: const TextSpan(
                         children: [
@@ -185,7 +177,7 @@ class _MediaState extends State<Media> {
                             text: "Explore your media listings",
                             style: TextStyle(
                               fontSize: 18,
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
                               color: Styling.textColor3,
                             ),
                           ),
@@ -194,7 +186,6 @@ class _MediaState extends State<Media> {
                     ),
                   ],
                 ),
-                SizedBox(height: 5.0),
                 Center(
                   child: Stack(
                     alignment: Alignment.center,
@@ -208,7 +199,8 @@ class _MediaState extends State<Media> {
                         child: Text(
                           "Track what you binge",
                           style: TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.left,
                         ),
@@ -322,6 +314,7 @@ class _MediaState extends State<Media> {
     }
   }
 
+  // delete category
   Future<void> deleteMediaCategory(String categoryName) async {
     try {
       // Get the document reference of the category to be deleted
@@ -355,6 +348,7 @@ class _MediaState extends State<Media> {
       // Remove the category from mediaList
       setState(() {
         mediaList.removeWhere((media) => media.Mediatitle == categoryName);
+        showToast(message: 'Category successfully deleted.');
       });
     } catch (e) {
       print('Error deleting media category: $e');
