@@ -36,20 +36,13 @@ class _SigninState extends State<Signin> {
             width: double.infinity,
             color: Color(0xFFB0C4DE),
             child: Padding(
-              padding: const EdgeInsets.only(top: 10), 
+              padding: const EdgeInsets.only(top: 20), 
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Image.asset(
-                    'lib/assets/logofin.png', 
+                    'lib/assets/logoname.png', 
                     height: 150,
-                  ),
-                  Text(
-                    'App Name',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
                 ],
               ),

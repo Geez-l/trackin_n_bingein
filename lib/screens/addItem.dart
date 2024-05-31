@@ -26,14 +26,13 @@ class _AddItemState extends State<AddItem> {
     _getCurrentUserId();
   }
 
+  // get id of current user
   // Method to get the current user's ID
+
   void _getCurrentUserId() {
     User? user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       _userId = user.uid;
-    } else {
-      // Handle the case where user is not logged in
-      // You may want to navigate to the login screen or handle it differently
     }
   }
 
@@ -88,7 +87,7 @@ class _AddItemState extends State<AddItem> {
             Center(
               child: Text(
                 "Click to choose photo for your media",
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
                   color: Styling.textColor3,

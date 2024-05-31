@@ -92,17 +92,9 @@ Future<void> fetchCategories() async {
                     SizedBox(width: 10),
                     RichText(
                       text: TextSpan(
-                        children: [
+                        children: const [
                           TextSpan(
-                            text: "Kzlyr",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Styling.textColor3,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ", your media consumption",
+                            text: "Your media consumption",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
@@ -138,6 +130,17 @@ Future<void> fetchCategories() async {
                   ),
                 ),
                 SizedBox(height: 20),
+                if (MediaConsumptionData.categories.isEmpty)
+                  Center(
+                    child: Text(
+                      'You have no media listings yet',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Styling.textColor3,
+                      ),
+                    ),
+                  )
+                else 
                 Card(
                   elevation: 4,
                   child: Padding(

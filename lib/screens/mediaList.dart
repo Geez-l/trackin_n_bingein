@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:trackin_n_bingein/screens/details.dart';
 import 'package:trackin_n_bingein/screens/addItem.dart';
-import 'package:trackin_n_bingein/screens/homepage.dart';
-import 'package:trackin_n_bingein/screens/profile.dart';
 
 class MediaList extends StatefulWidget {
   final String title;

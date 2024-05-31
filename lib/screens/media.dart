@@ -15,7 +15,7 @@ class Media extends StatefulWidget {
 class MediaCard extends StatelessWidget {
   final String Mediatitle;
   final String imagePath;
-  final VoidCallback onDelete; // Callback function for delete action
+  final VoidCallback onDelete;
 
   MediaCard({
     required this.Mediatitle,
@@ -69,7 +69,7 @@ class MediaCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: onDelete, // Call onDelete function
+                    onPressed: onDelete, 
                     icon: Icon(Icons.delete),
                     color: Colors.white,
                   ),
@@ -173,15 +173,7 @@ class _MediaState extends State<Media> {
                       text: const TextSpan(
                         children: [
                           TextSpan(
-                            text: "Kzlyr",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Styling.textColor3,
-                            ),
-                          ),
-                          TextSpan(
-                            text: ", explore media listings",
+                            text: "Explore your media listings",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
@@ -323,15 +315,31 @@ class _MediaState extends State<Media> {
 
   Future<void> deleteMediaCategory(String categoryName) async {
     try {
-      // Delete the category from Firestore
-      await firestore
+      // Get the document reference of the category to be deleted
+      QuerySnapshot querySnapshot = await firestore
           .collection('Category')
           .where('UserId', isEqualTo: userId)
           .where('Name', isEqualTo: categoryName)
-          .get()
-          .then((querySnapshot) {
-        querySnapshot.docs.forEach((doc) {
-          doc.reference.delete();
+          .get();
+
+      // Delete the category from Firestore
+      querySnapshot.docs.forEach((doc) async {
+        // Get the reference of the category document
+        final categoryRef = doc.reference;
+
+        // Delete the category document
+        await categoryRef.delete();
+
+        // Get the media associated with the category
+        QuerySnapshot mediaQuerySnapshot = await firestore
+            .collection('Media')
+            .where('UserId', isEqualTo: userId)
+            .where('CategoryName', isEqualTo: categoryName)
+            .get();
+
+        // Delete all media associated with the category
+        mediaQuerySnapshot.docs.forEach((mediaDoc) async {
+          await mediaDoc.reference.delete();
         });
       });
 
@@ -343,4 +351,5 @@ class _MediaState extends State<Media> {
       print('Error deleting media category: $e');
     }
   }
+
 }

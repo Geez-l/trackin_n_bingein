@@ -85,6 +85,7 @@ flutter:
     - lib/assets/books.jpg
     - lib/assets/movie.jpg
     - lib/assets/default.jpg
+    - lib/assets/logoname.png
 
  
     
