@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; 
 import 'package:trackin_n_bingein/backend/userFetch.dart';
+import 'package:trackin_n_bingein/screens/media.dart';
 import 'package:trackin_n_bingein/screens/statistics.dart'; 
 
-// Modify Homepage to be a StatefulWidget so it can fetch data asynchronously
 class Homepage extends StatefulWidget {
   final String email;
   const Homepage({Key? key, required this.email}) : super(key: key);
@@ -29,13 +29,10 @@ class _HomepageState extends State<Homepage> {
       future: _usernameFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          // While waiting for data to fetch, show a loading indicator
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          // If an error occurs while fetching data, show an error message
           return Center(child: Text('Error: ${snapshot.error}'));
         } else {
-          // Once data is fetched, build the UI with the fetched username
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -124,7 +121,7 @@ class GreetingSection extends StatelessWidget {
   }
 }
 
-class WeeklyWrapUpSection extends StatelessWidget {  // not finished
+class WeeklyWrapUpSection extends StatelessWidget {  
   @override 
   Widget build(BuildContext context) {
     return Card(
@@ -145,11 +142,6 @@ class WeeklyWrapUpSection extends StatelessWidget {  // not finished
               width: 250, // Set your desired width
               height: 250,
               child: PieChartWidget(),
-            ),
-            SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text('View my statistics'),
             ),
           ],
         ),
@@ -172,24 +164,14 @@ class MyListingsSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 10),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              ListingItem(
-                image: 'books.jpg', 
-                label: 'Books',
-              ),
-              ListingItem(
-                image: 'movie.jpg', 
-                label: 'Movies',
-              ),
-              ListingItem(
-                image: 'music.png',
-                label: 'Podcasts',
-              ),
-            ],
-          ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => Media()),
+            );
+          },
+          child: Text('See All'),
         ),
       ],
     );
