@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:trackin_n_bingein/screens/details.dart';
+import 'package:trackin_n_bingein/screens/media_pages/details.dart';
 import 'package:trackin_n_bingein/styling/styling.dart';
-import 'package:trackin_n_bingein/screens/signin.dart';
+import 'package:trackin_n_bingein/screens/user_authentication_pages/signin.dart';
 
 class Buttons {
   // Get Started button

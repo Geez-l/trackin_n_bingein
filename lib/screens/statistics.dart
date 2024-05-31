@@ -5,7 +5,11 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:trackin_n_bingein/styling/styling.dart';
 
 class MediaConsumptionData {
-  static List<String> categories = []; // Initialize empty list initially
+
+  // Initialize empty list initially
+  // categories = name of categories
+  // percentages = values of overallStat
+  static List<String> categories = []; 
   static List<double> percentages = [];
   static List<Color> colors = [
     Color.fromARGB(255, 122, 195, 255),
@@ -15,6 +19,7 @@ class MediaConsumptionData {
     Color.fromARGB(255, 191, 255, 175),
     Color.fromARGB(255, 172, 167, 198),
     Color.fromARGB(255, 184, 175, 255),
+    Color.fromARGB(255, 119, 255, 192),
   ];
 }
 
@@ -43,6 +48,7 @@ void _getCurrentUserId() {
   }
 }
 
+// fetch categories and store on lists initialized above
 Future<void> fetchCategories() async {
   final QuerySnapshot querySnapshot = await FirebaseFirestore.instance
       .collection('Category')
@@ -91,8 +97,8 @@ Future<void> fetchCategories() async {
                     ),
                     SizedBox(width: 10),
                     RichText(
-                      text: TextSpan(
-                        children: const [
+                      text: const TextSpan(
+                        children: [
                           TextSpan(
                             text: "Your media consumption",
                             style: TextStyle(
@@ -115,8 +121,8 @@ Future<void> fetchCategories() async {
                         "lib/assets/banner1.png",
                         fit: BoxFit.fill,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 25, right: 25),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 25, right: 25),
                         child: Text(
                           "Statistics",
                           style: TextStyle(
@@ -129,9 +135,10 @@ Future<void> fetchCategories() async {
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
+                // if category collection is empty
                 if (MediaConsumptionData.categories.isEmpty)
-                  Center(
+                  const Center(
                     child: Text(
                       'You have no media listings yet',
                       style: TextStyle(
@@ -140,16 +147,16 @@ Future<void> fetchCategories() async {
                       ),
                     ),
                   )
-                else 
-                Card(
+                // if category collection is not empty
+                else Card(
                   elevation: 4,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 10),
-                        Center(
+                        const SizedBox(height: 10),
+                        const Center(
                           child: Text(
                             "Here is the summary of the media you've consumed this week.",
                             style: TextStyle(
@@ -158,22 +165,22 @@ Future<void> fetchCategories() async {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
+                            const Expanded(
                               flex: 2,
                               child: PieChartWidget(),
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: generateLegends(),
                             ),
                           ],
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         ...generateLinearIndicators(),
                       ],
                     ),
@@ -187,6 +194,7 @@ Future<void> fetchCategories() async {
     );
   }
 
+  // create legends for each category
   List<Widget> generateLegends() {
     List<Widget> legends = [];
     for (int i = 0; i < MediaConsumptionData.categories.length; i++) {
@@ -210,7 +218,7 @@ Future<void> fetchCategories() async {
             children: [
               Text(
                 MediaConsumptionData.categories[i],
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -248,7 +256,7 @@ class LegendItem extends StatelessWidget {
   final String label;
   final Color color;
 
-  const LegendItem({
+  const LegendItem({super.key, 
     required this.label,
     required this.color,
   });
@@ -264,7 +272,7 @@ class LegendItem extends StatelessWidget {
             height: 20,
             color: color,
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Text(
             label,
             style: TextStyle(fontSize: 12),
@@ -275,6 +283,7 @@ class LegendItem extends StatelessWidget {
   }
 }
 
+// piechart
 class PieChartWidget extends StatelessWidget {
   const PieChartWidget({Key? key}) : super(key: key);
 

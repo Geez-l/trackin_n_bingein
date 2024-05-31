@@ -1,15 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:trackin_n_bingein/screens/details.dart';
+import 'package:trackin_n_bingein/screens/media_pages/details.dart';
 import 'package:trackin_n_bingein/screens/navigation.dart';
 import 'package:trackin_n_bingein/screens/splash.dart';
-import 'package:trackin_n_bingein/screens/signin.dart';
-import 'package:trackin_n_bingein/screens/signup.dart';
+import 'package:trackin_n_bingein/screens/user_authentication_pages/signin.dart';
+import 'package:trackin_n_bingein/screens/user_authentication_pages/signup.dart';
 // import 'package:trackin_n_bingein/screens/interests.dart';
 import 'package:trackin_n_bingein/screens/homepage.dart';
 import 'package:trackin_n_bingein/screens/statistics.dart';
-import 'package:trackin_n_bingein/screens/profile.dart';
+import 'package:trackin_n_bingein/screens/profile_pages/profile.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

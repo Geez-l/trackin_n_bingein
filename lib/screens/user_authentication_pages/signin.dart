@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:trackin_n_bingein/authentication/user_auth.dart';
 import 'package:trackin_n_bingein/global/common/toast.dart';
 import 'package:trackin_n_bingein/screens/navigation.dart';
-import 'package:trackin_n_bingein/screens/signup.dart';
+import 'package:trackin_n_bingein/screens/user_authentication_pages/signup.dart';
 
 class Signin extends StatefulWidget {
   const Signin({Key? key}) : super(key: key);
@@ -16,7 +16,6 @@ class Signin extends StatefulWidget {
 class _SigninState extends State<Signin> {
 
   final FirebaseAuthentication _auth = FirebaseAuthentication();
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   bool isSigning = false;
 

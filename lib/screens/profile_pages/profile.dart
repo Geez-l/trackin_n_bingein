@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trackin_n_bingein/authentication/user_auth.dart';
-import 'package:trackin_n_bingein/screens/editprofile.dart';
-import 'package:trackin_n_bingein/screens/signin.dart';
+import 'package:trackin_n_bingein/screens/user_authentication_pages/signin.dart';
 import 'package:trackin_n_bingein/styling/styling.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -35,7 +34,6 @@ class _ProfileState extends State<Profile> {
           .get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        // Assuming there is only one document with the given email
         return querySnapshot.docs.first.get('Username');
       } else {
         throw Exception('No user found with email: $email');
@@ -64,8 +62,8 @@ class _ProfileState extends State<Profile> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 80),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
                     "Settings",
                     style: TextStyle(
@@ -103,7 +101,7 @@ class _ProfileState extends State<Profile> {
                       SizedBox(height: 10),
                       Text(
                         "Name: ${snapshot.data}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.normal,
                           color: Styling.textColor3,
@@ -111,7 +109,7 @@ class _ProfileState extends State<Profile> {
                       ),
                       Text(
                         "Email: ${widget.email}",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.normal,
                           color: Styling.textColor3,
@@ -125,18 +123,6 @@ class _ProfileState extends State<Profile> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        buildCardWithIcon(
-                          title: 'Edit Profile',
-                          icon: Icons.person,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-
-                              MaterialPageRoute(builder: (context) => EditProfile(email: widget.email,)),
-
-                            );
-                          },
-                        ),
                         SizedBox(height: 10),
                         buildCardWithIcon(
                           title: 'Log Out',
@@ -188,7 +174,7 @@ class _ProfileState extends State<Profile> {
                 child: Text(
                   title,
                   textAlign: TextAlign.start,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.normal,
                     color: Styling.textColor3,
@@ -204,6 +190,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  // log out 
   void showLogoutConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -234,6 +221,7 @@ class _ProfileState extends State<Profile> {
     );
   }
 
+  // delete account dialog
   void showDeleteAccountDialog(BuildContext context) {
     showDialog(
       context: context,

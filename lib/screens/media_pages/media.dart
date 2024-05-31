@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trackin_n_bingein/backend/models/categoryModel.dart';
-import 'package:trackin_n_bingein/screens/mediaList.dart';
+import 'package:trackin_n_bingein/screens/media_pages/mediaList.dart';
 import 'package:trackin_n_bingein/styling/styling.dart';
 
 class Media extends StatefulWidget {
@@ -56,7 +56,7 @@ class MediaCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(12.0),
               decoration: BoxDecoration(
-                color: Colors.black54, 
+                // color: Colors.black54, 
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Row(

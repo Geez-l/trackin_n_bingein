@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:trackin_n_bingein/screens/details.dart';
-import 'package:trackin_n_bingein/screens/addItem.dart';
+import 'package:trackin_n_bingein/screens/media_pages/details.dart';
+import 'package:trackin_n_bingein/screens/media_pages/addItem.dart';
 
 class MediaList extends StatefulWidget {
   final String title;
